@@ -5,11 +5,13 @@ import { colors } from "./styles/theme";
 import { CCodePanel } from "./components/CCodePanel";
 import { AsmPanel } from "./components/AsmPanel";
 import { StackView } from "./components/StackView";
+import { RegisterPanel } from "./components/RegisterPanel";
 
 export const App: React.FC = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const trace = traces.find((t) => t.id === state.activeTraceId) ?? traces[0];
   const step = trace.steps[state.currentStep];
+  const prevStep = state.currentStep > 0 ? trace.steps[state.currentStep - 1] : undefined;
 
   return (
     <div style={{
@@ -39,13 +41,19 @@ export const App: React.FC = () => {
             currentFunction={step.currentFunction}
           />
         </div>
-        <div style={{ flex: 1 }}>
-          <StackView
-            stack={step.stack}
-            rsp={step.registers.rsp}
-            rbp={step.registers.rbp}
-            currentFunction={step.currentFunction}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+          <RegisterPanel
+            registers={step.registers}
+            prevRegisters={prevStep?.registers}
           />
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <StackView
+              stack={step.stack}
+              rsp={step.registers.rsp}
+              rbp={step.registers.rbp}
+              currentFunction={step.currentFunction}
+            />
+          </div>
         </div>
       </div>
       <div style={{
