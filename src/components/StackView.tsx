@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import type { StackEntry } from "../types";
 import { colors } from "../styles/theme";
 
@@ -18,6 +19,39 @@ const fnColor = (fn: string) => {
 };
 
 export const StackView: React.FC<Props> = ({ stack, rsp, rbp, currentFunction }) => {
+  // Track which addresses are "new" (just appeared) for entry animation
+  const [animatedAddresses, setAnimatedAddresses] = useState<Set<number>>(new Set());
+  const prevAddressesRef = useRef<Set<number>>(new Set());
+
+  useEffect(() => {
+    const currentAddresses = new Set(stack.map((e) => e.address));
+    const prevAddresses = prevAddressesRef.current;
+
+    // Find newly added addresses
+    const newAddresses = new Set<number>();
+    for (const addr of currentAddresses) {
+      if (!prevAddresses.has(addr)) {
+        newAddresses.add(addr);
+      }
+    }
+
+    // If there are new addresses, animate them in
+    if (newAddresses.size > 0) {
+      setAnimatedAddresses(newAddresses);
+      // After a short delay, mark them as animated (remove from set)
+      const timer = setTimeout(() => {
+        setAnimatedAddresses(new Set());
+      }, 50); // Short delay to allow initial render with animation start state
+      return () => clearTimeout(timer);
+    }
+
+    prevAddressesRef.current = currentAddresses;
+  }, [stack]);
+
+  // Update prev addresses after animation starts
+  useEffect(() => {
+    prevAddressesRef.current = new Set(stack.map((e) => e.address));
+  }, [stack]);
   return (
     <div
       style={{
@@ -53,6 +87,7 @@ export const StackView: React.FC<Props> = ({ stack, rsp, rbp, currentFunction })
         {stack.map((entry, idx) => {
           const isRsp = entry.address === rsp;
           const isRbp = entry.address === rbp;
+          const isNew = animatedAddresses.has(entry.address);
 
           return (
             <div
@@ -62,6 +97,9 @@ export const StackView: React.FC<Props> = ({ stack, rsp, rbp, currentFunction })
                 alignItems: "center",
                 gap: 6,
                 marginBottom: 2,
+                opacity: isNew ? 0 : 1,
+                transform: isNew ? "translateY(8px)" : "translateY(0)",
+                transition: "opacity 0.2s ease, transform 0.2s ease",
               }}
             >
               {/* Address */}
