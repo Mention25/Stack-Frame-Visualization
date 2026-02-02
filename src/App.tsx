@@ -4,6 +4,7 @@ import { traces } from "./traces";
 import { colors } from "./styles/theme";
 import { CCodePanel } from "./components/CCodePanel";
 import { AsmPanel } from "./components/AsmPanel";
+import { StackView } from "./components/StackView";
 
 export const App: React.FC = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -38,18 +39,13 @@ export const App: React.FC = () => {
             currentFunction={step.currentFunction}
           />
         </div>
-        <div style={{
-          flex: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: colors.textBright,
-          flexDirection: "column",
-          gap: 16,
-        }}>
-          <h2>Step {state.currentStep + 1} / {trace.steps.length}</h2>
-          <h1>{step.title}</h1>
-          <p style={{ color: colors.textDim }}>{step.description}</p>
+        <div style={{ flex: 1 }}>
+          <StackView
+            stack={step.stack}
+            rsp={step.registers.rsp}
+            rbp={step.registers.rbp}
+            currentFunction={step.currentFunction}
+          />
         </div>
       </div>
       <div style={{
