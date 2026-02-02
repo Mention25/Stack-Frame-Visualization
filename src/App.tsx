@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 import { appReducer, initialState } from "./state";
 import { traces } from "./traces";
 import { colors } from "./styles/theme";
@@ -7,12 +7,25 @@ import { AsmPanel } from "./components/AsmPanel";
 import { StackView } from "./components/StackView";
 import { RegisterPanel } from "./components/RegisterPanel";
 import { NarrationBox } from "./components/NarrationBox";
+import { TransportBar } from "./components/TransportBar";
 
 export const App: React.FC = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const trace = traces.find((t) => t.id === state.activeTraceId) ?? traces[0];
   const step = trace.steps[state.currentStep];
   const prevStep = state.currentStep > 0 ? trace.steps[state.currentStep - 1] : undefined;
+  const maxStep = trace.steps.length - 1;
+
+  // Auto-play effect
+  useEffect(() => {
+    if (!state.isPlaying) return;
+
+    const interval = setInterval(() => {
+      dispatch({ type: "NEXT_STEP", maxStep });
+    }, 1000 / state.playbackSpeed);
+
+    return () => clearInterval(interval);
+  }, [state.isPlaying, state.playbackSpeed, maxStep]);
 
   return (
     <div style={{
@@ -63,17 +76,12 @@ export const App: React.FC = () => {
           </div>
         </div>
       </div>
-      <div style={{
-        display: "flex",
-        gap: 8,
-        justifyContent: "center",
-        padding: 16,
-      }}>
-        <button onClick={() => dispatch({ type: "FIRST_STEP" })}>|&#9665;</button>
-        <button onClick={() => dispatch({ type: "PREV_STEP" })}>&#9665; Prev</button>
-        <button onClick={() => dispatch({ type: "NEXT_STEP", maxStep: trace.steps.length - 1 })}>Next &#9655;</button>
-        <button onClick={() => dispatch({ type: "LAST_STEP", maxStep: trace.steps.length - 1 })}>&#9655;|</button>
-      </div>
+      <TransportBar
+        state={state}
+        dispatch={dispatch}
+        maxStep={maxStep}
+        phases={trace.phases}
+      />
     </div>
   );
 };
