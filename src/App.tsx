@@ -3,6 +3,7 @@ import { appReducer, initialState } from "./state";
 import { traces } from "./traces";
 import { colors } from "./styles/theme";
 import { CCodePanel } from "./components/CCodePanel";
+import { AsmPanel } from "./components/AsmPanel";
 
 export const App: React.FC = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -27,6 +28,13 @@ export const App: React.FC = () => {
           <CCodePanel
             cCode={trace.cCode}
             activeLine={step.cCodeLine}
+            currentFunction={step.currentFunction}
+          />
+        </div>
+        <div style={{ width: 320 }}>
+          <AsmPanel
+            asmCode={trace.asmCode}
+            activeLine={step.highlightedAsmLine}
             currentFunction={step.currentFunction}
           />
         </div>
