@@ -6,6 +6,7 @@ import { CCodePanel } from "./components/CCodePanel";
 import { AsmPanel } from "./components/AsmPanel";
 import { StackView } from "./components/StackView";
 import { RegisterPanel } from "./components/RegisterPanel";
+import { NarrationBox } from "./components/NarrationBox";
 
 export const App: React.FC = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -45,6 +46,12 @@ export const App: React.FC = () => {
           <RegisterPanel
             registers={step.registers}
             prevRegisters={prevStep?.registers}
+          />
+          <NarrationBox
+            stepNumber={state.currentStep}
+            totalSteps={trace.steps.length}
+            title={step.title}
+            description={step.description}
           />
           <div style={{ flex: 1, overflow: "hidden" }}>
             <StackView
