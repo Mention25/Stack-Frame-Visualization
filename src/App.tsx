@@ -2,6 +2,7 @@ import { useReducer } from "react";
 import { appReducer, initialState } from "./state";
 import { traces } from "./traces";
 import { colors } from "./styles/theme";
+import { CCodePanel } from "./components/CCodePanel";
 
 export const App: React.FC = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -19,15 +20,29 @@ export const App: React.FC = () => {
       <div style={{
         flex: 1,
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: colors.textBright,
-        flexDirection: "column",
         gap: 16,
+        overflow: "hidden",
       }}>
-        <h2>Step {state.currentStep + 1} / {trace.steps.length}</h2>
-        <h1>{step.title}</h1>
-        <p style={{ color: colors.textDim }}>{step.description}</p>
+        <div style={{ width: 280 }}>
+          <CCodePanel
+            cCode={trace.cCode}
+            activeLine={step.cCodeLine}
+            currentFunction={step.currentFunction}
+          />
+        </div>
+        <div style={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: colors.textBright,
+          flexDirection: "column",
+          gap: 16,
+        }}>
+          <h2>Step {state.currentStep + 1} / {trace.steps.length}</h2>
+          <h1>{step.title}</h1>
+          <p style={{ color: colors.textDim }}>{step.description}</p>
+        </div>
       </div>
       <div style={{
         display: "flex",
