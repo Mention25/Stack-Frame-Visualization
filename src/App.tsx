@@ -22,10 +22,37 @@ export const App: React.FC = () => {
 
     const interval = setInterval(() => {
       dispatch({ type: "NEXT_STEP", maxStep });
-    }, 1000 / state.playbackSpeed);
+    }, 1400 / state.playbackSpeed);
 
     return () => clearInterval(interval);
   }, [state.isPlaying, state.playbackSpeed, maxStep]);
+
+  // Keyboard shortcuts effect
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "ArrowRight":
+          dispatch({ type: "NEXT_STEP", maxStep });
+          break;
+        case "ArrowLeft":
+          dispatch({ type: "PREV_STEP" });
+          break;
+        case " ":
+          e.preventDefault();
+          dispatch({ type: "TOGGLE_PLAY" });
+          break;
+        case "Home":
+          dispatch({ type: "FIRST_STEP" });
+          break;
+        case "End":
+          dispatch({ type: "LAST_STEP", maxStep });
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [maxStep]);
 
   return (
     <div style={{
