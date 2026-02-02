@@ -1,4 +1,7 @@
 import { colors } from "./styles/theme";
+import { traces } from "./traces";
+
+console.log("Trace steps:", traces[0].steps.length);
 
 export const App: React.FC = () => {
   return (
