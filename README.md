@@ -1,6 +1,6 @@
 # Stack Frame Interactive Visualizer
 
-An interactive step-through debugger for visualizing x86-64 stack frames, registers, and assembly execution. Built for CS202 Operating Systems at NYU.
+An interactive step-through debugger for visualizing x86-64 stack frames, registers, and assembly execution. Built based on [Michael Walfish CSCI-UA.0202(-001): Operating Systems (Undergrad)](https://cs.nyu.edu/~mwalfish/classes/26sp/index.html) course material.
 
 ## Features
 
