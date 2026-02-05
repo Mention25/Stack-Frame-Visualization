@@ -17,14 +17,25 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f1923;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3282b8;
-  border-radius: 3px;
+  background: rgba(50, 130, 184, 0.3);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(50, 130, 184, 0.8);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(50, 130, 184, 0.3) transparent;
 }

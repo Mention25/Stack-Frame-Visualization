@@ -42,7 +42,7 @@ export const RegisterPanel: React.FC<Props> = ({ registers, prevRegisters }) => 
       style={{
         background: colors.bgPanel,
         borderRadius: 8,
-        padding: 8,
+        padding: "8px 12px",
         border: `1px solid ${colors.stackBorder}`,
       }}
     >
@@ -77,7 +77,7 @@ export const RegisterPanel: React.FC<Props> = ({ registers, prevRegisters }) => 
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                padding: "4px 8px",
+                padding: "4px 12px 4px 8px",
                 borderRadius: 4,
                 background: isFlashing ? colors.registerChanged : colors.registerBg,
                 transition: "background-color 0.3s ease-out",
