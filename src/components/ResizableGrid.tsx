@@ -98,8 +98,9 @@ export const ResizableGrid: React.FC<Props> = ({
     };
   }, [dragging, handleMouseMove, handleMouseUp]);
 
-  // Calculate flex basis as percentages for responsiveness
-  const totalWidth = widths.reduce((a, b) => a + b, 0);
+  const dividerWidth = 6;
+  const numDividers = React.Children.count(children) - 1;
+  const totalColumnWidth = widths.reduce((a, b) => a + b, 0);
 
   return (
     <div
@@ -108,21 +109,25 @@ export const ResizableGrid: React.FC<Props> = ({
         display: "flex",
         flex: 1,
         overflow: "hidden",
-        gap: 0,
       }}
     >
-      {React.Children.map(children, (child, index) => (
-        <React.Fragment key={index}>
-          {/* Column */}
-          <div
-            style={{
-              flex: `0 0 ${(widths[index] / totalWidth) * 100}%`,
-              overflow: index === children.length - 1 ? "visible" : "hidden",
-              minWidth: minWidth,
-            }}
-          >
-            {child}
-          </div>
+      {React.Children.map(children, (child, index) => {
+        const widthPercent = (widths[index] / totalColumnWidth) * 100;
+        const dividerOffset = (dividerWidth * numDividers * widths[index]) / totalColumnWidth;
+
+        return (
+          <React.Fragment key={index}>
+            {/* Column */}
+            <div
+              style={{
+                width: `calc(${widthPercent}% - ${dividerOffset}px)`,
+                flexShrink: 0,
+                minWidth: minWidth,
+                overflow: "hidden",
+              }}
+            >
+              {child}
+            </div>
 
           {/* Divider (not after last column) */}
           {index < children.length - 1 && (
@@ -162,7 +167,8 @@ export const ResizableGrid: React.FC<Props> = ({
             </div>
           )}
         </React.Fragment>
-      ))}
+        );
+      })}
     </div>
   );
 };
