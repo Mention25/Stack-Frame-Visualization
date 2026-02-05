@@ -194,7 +194,7 @@ export const App: React.FC = () => {
       </div>
 
       {/* Main four-column resizable grid */}
-      <div style={{ flex: 1, padding: 12, overflow: "hidden", display: "flex" }}>
+      <div style={{ flex: 1, padding: "12px 16px 12px 12px", overflow: "hidden", display: "flex" }}>
         <ResizableGrid storageKey="stack-frame-column-widths">
           {/* Column 1: C Code Panel */}
           <CCodePanel
