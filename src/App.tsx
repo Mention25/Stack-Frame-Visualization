@@ -8,6 +8,7 @@ import { StackView } from "./components/StackView";
 import { RegisterPanel } from "./components/RegisterPanel";
 import { NarrationBox } from "./components/NarrationBox";
 import { TransportBar } from "./components/TransportBar";
+import { ResizableGrid } from "./components/ResizableGrid";
 
 // Legend component showing color coding for functions and pointers
 const Legend: React.FC = () => (
@@ -192,66 +193,53 @@ export const App: React.FC = () => {
         </div>
       </div>
 
-      {/* Main four-column grid */}
-      <div
-        style={{
-          flex: 1,
-          display: "grid",
-          gridTemplateColumns: "240px 300px 1fr 260px",
-          gap: 12,
-          padding: 12,
-          overflow: "hidden",
-        }}
-      >
-        {/* Column 1: C Code Panel */}
-        <div style={{ overflow: "hidden" }}>
+      {/* Main four-column resizable grid */}
+      <div style={{ flex: 1, padding: 12, overflow: "hidden", display: "flex" }}>
+        <ResizableGrid storageKey="stack-frame-column-widths">
+          {/* Column 1: C Code Panel */}
           <CCodePanel
             cCode={trace.cCode}
             activeLine={step.cCodeLine}
             currentFunction={step.currentFunction}
           />
-        </div>
 
-        {/* Column 2: Assembly Panel */}
-        <div style={{ overflow: "hidden" }}>
+          {/* Column 2: Assembly Panel */}
           <AsmPanel
             asmCode={trace.asmCode}
             activeLine={step.highlightedAsmLine}
             currentFunction={step.currentFunction}
           />
-        </div>
 
-        {/* Column 3: Stack View */}
-        <div style={{ overflow: "hidden" }}>
+          {/* Column 3: Stack View */}
           <StackView
             stack={step.stack}
             rsp={step.registers.rsp}
             rbp={step.registers.rbp}
             currentFunction={step.currentFunction}
           />
-        </div>
 
-        {/* Column 4: Registers + Narration + Legend */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-            overflow: "hidden",
-          }}
-        >
-          <RegisterPanel
-            registers={step.registers}
-            prevRegisters={prevStep?.registers}
-          />
-          <NarrationBox
-            stepNumber={state.currentStep}
-            totalSteps={trace.steps.length}
-            title={step.title}
-            description={step.description}
-          />
-          <Legend />
-        </div>
+          {/* Column 4: Registers + Narration + Legend */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+              height: "100%",
+            }}
+          >
+            <RegisterPanel
+              registers={step.registers}
+              prevRegisters={prevStep?.registers}
+            />
+            <NarrationBox
+              stepNumber={state.currentStep}
+              totalSteps={trace.steps.length}
+              title={step.title}
+              description={step.description}
+            />
+            <Legend />
+          </div>
+        </ResizableGrid>
       </div>
 
       {/* Transport bar fixed at bottom */}
