@@ -73,18 +73,18 @@ export const AsmPanel: React.FC<Props> = ({ asmCode, activeLine, currentFunction
               >
                 {line.num}
               </span>
-              <span style={{ flex: 1, fontSize: 11 }}>
+              <span style={{ fontSize: 11, whiteSpace: "nowrap" }}>
                 {line.type === "label" ? (
                   <span style={{ color: colors.function, fontWeight: 700 }}>{line.text}</span>
                 ) : (
                   colorizeAsm(line.text)
                 )}
+                {line.comment && (
+                  <span style={{ color: colors.comment, fontSize: 10, marginLeft: 12 }}>
+                    # {line.comment}
+                  </span>
+                )}
               </span>
-              {line.comment && (
-                <span style={{ color: colors.comment, fontSize: 10, flexShrink: 0 }}>
-                  # {line.comment}
-                </span>
-              )}
             </div>
           );
         })}
