@@ -119,6 +119,7 @@ export const ResizableGrid: React.FC<Props> = ({
               flex: `0 0 ${(widths[index] / totalWidth) * 100}%`,
               overflow: "hidden",
               minWidth: minWidth,
+              paddingRight: index === children.length - 1 ? 4 : 0,
             }}
           >
             {child}
