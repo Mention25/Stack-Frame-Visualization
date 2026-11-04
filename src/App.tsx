@@ -93,6 +93,7 @@ const TraceSelector: React.FC<{
   dispatch: React.Dispatch<{ type: "SET_TRACE"; traceId: string }>;
 }> = ({ activeTraceId, dispatch }) => (
   <select
+    aria-label="Execution trace"
     value={activeTraceId}
     onChange={(e) => dispatch({ type: "SET_TRACE", traceId: e.target.value })}
     style={{
@@ -162,6 +163,7 @@ export const App: React.FC = () => {
 
   return (
     <div
+      className="visualizer-app"
       style={{
         height: "100%",
         background: colors.bgLight,
@@ -189,12 +191,27 @@ export const App: React.FC = () => {
             color: colors.textBright,
           }}
         >
-          CS202: Stack Frame Visualization
+          Stack Frame Visualization
         </div>
       </div>
 
+      <aside className="demo-context" aria-label="演示用途与项目来源">
+        <p>
+          <strong>调用栈通用演示</strong> · 使用原项目的 main → f → g 独立教学示例。
+          本页回放预设状态，地址与部分指令是教学示意，不运行或调试课程实验二进制。
+          理解原理后，请用 GDB/GEF 在实际二进制中验证；实验结论以实际程序为准。
+        </p>
+        <p className="demo-credits">
+          原作者 <a href="https://github.com/NickZhuxy">Nick Zhu (NickZhuxy)</a>
+          {" · "}<a href="https://github.com/NickZhuxy/Stack-Frame-Visualization">原项目源码</a>
+          {" · "}教学材料来源：<a href="https://cs.nyu.edu/~mwalfish/classes/26sp/index.html">Michael Walfish / NYU CS202</a>
+          {" · "}部署维护：Mention25
+          {" · "}<a href={`${import.meta.env.BASE_URL}attribution.html`} target="_blank" rel="noopener noreferrer">来源与许可说明</a>
+        </p>
+      </aside>
+
       {/* Main four-column resizable grid */}
-      <div style={{ flex: 1, padding: "12px 16px 12px 12px", overflow: "hidden", display: "flex" }}>
+      <div style={{ flex: 1, minHeight: 0, padding: "12px 16px 12px 12px", overflow: "hidden", display: "flex" }}>
         <ResizableGrid storageKey="stack-frame-column-widths">
           {/* Column 1: C Code Panel */}
           <CCodePanel

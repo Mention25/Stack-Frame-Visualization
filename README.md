@@ -1,5 +1,18 @@
 # Stack Frame Interactive Visualizer
 
+> **Mention25 的 GitHub Pages 本地准备版本（尚未上线）**
+>
+> 原作者：[Nick Zhu (NickZhuxy)](https://github.com/NickZhuxy)；原项目：[Stack-Frame-Visualization](https://github.com/NickZhuxy/Stack-Frame-Visualization)。
+> 本版本增加部署配置、中文用途说明与来源标注。原有通用示例与可视化实现来自上游，不包含课程实验二进制。
+> 这是预设轨迹的教学演示；理解原理后，应使用 GDB/GEF 在实际二进制中验证，不能把演示状态作为实验程序的标准答案。
+>
+> **许可尚待原作者澄清：** 下方原始 README 写 MIT，原始 package.json 写 ISC，且没有独立 LICENSE 文件。两处声明均保留；正式发布前需确认。
+> 部署状态、预览方式和后续发布步骤见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
+
+---
+
+以下为保留的上游项目说明：
+
 An interactive step-through debugger for visualizing x86-64 stack frames, registers, and assembly execution. Built based on [Michael Walfish CSCI-UA.0202(-001): Operating Systems (Undergrad)](https://cs.nyu.edu/~mwalfish/classes/26sp/index.html) course material.
 
 ## Features
