@@ -3,8 +3,18 @@
 本版本已部署到 Mention25 的个人 GitHub Pages，使用独立通用示例，并保留原作者、项目与教学材料来源。
 
 2026-11-04（北京时间）部署完成并验证：<https://mention25.github.io/Stack-Frame-Visualization/>。
-发布源码提交：`c479f5c3409320fa1117ccdca06f4f1ac75f915c`。
-成功工作流：[41809569651](https://github.com/Mention25/Stack-Frame-Visualization/actions/runs/41809569651)（build 与 deploy 均成功）。
+当前发布源码提交：`bd17c2826851097f782eb591ae41dbf31f1059db`（加入可输入汇编的执行模式）。
+成功工作流：[41814605656](https://github.com/Mention25/Stack-Frame-Visualization/actions/runs/41814605656)（检查、测试、build 与 deploy 均成功）。
+首次固定示例发布为 `c479f5c3409320fa1117ccdca06f4f1ac75f915c`，记录见 [41809569651](https://github.com/Mention25/Stack-Frame-Visualization/actions/runs/41809569651)。
+
+## 汇编执行模式
+
+默认进入“输入汇编”：支持 AT&T / Intel、编辑并执行、单步、回退、播放、进度条、寄存器／栈变化、调用链、递归和条件跳转；“固定示例”保留原始 29 步演示。
+使用范围和虚拟地址约定见 [ASSEMBLY.md](ASSEMBLY.md)。代码在浏览器中解释执行，草稿保存在浏览器本地。
+
+- TypeScript、生产构建、19 项自动测试通过；本机 GCC 实际汇编执行的四个示例返回值及八组算术标志位与解释器一致，无跳过的测试。
+- 新功能已在公开 HTTPS 页面实际运行浏览器检查：自定义输入得到新结果、两种语法、嵌套调用与完整回退、阶乘、循环、错误行号、无限循环停止、编辑器键盘隔离、Ctrl+Enter、草稿恢复、播放暂停、固定示例切换和手机布局全部通过；无浏览器异常或站外资源请求。
+- 线上验证记录保存在忽略提交的 `.local/interactive-verification.json`，桌面及手机截图为 `.local/interactive-desktop.png`、`.local/interactive-mobile.png`。
 
 ## 目标
 
