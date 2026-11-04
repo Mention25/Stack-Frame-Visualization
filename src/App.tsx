@@ -205,7 +205,7 @@ export const App: React.FC = () => {
           原作者 <a href="https://github.com/NickZhuxy">Nick Zhu (NickZhuxy)</a>
           {" · "}<a href="https://github.com/NickZhuxy/Stack-Frame-Visualization">原项目源码</a>
           {" · "}教学材料来源：<a href="https://cs.nyu.edu/~mwalfish/classes/26sp/index.html">Michael Walfish / NYU CS202</a>
-          {" · "}部署维护：Mention25
+          {" · "}部署维护：<a href="https://github.com/Mention25/Stack-Frame-Visualization">Mention25</a>
           {" · "}<a href={`${import.meta.env.BASE_URL}attribution.html`} target="_blank" rel="noopener noreferrer">来源与许可说明</a>
         </p>
       </aside>

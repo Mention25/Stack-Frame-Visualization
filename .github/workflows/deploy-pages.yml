@@ -1,8 +1,11 @@
 name: Deploy GitHub Pages
 
-# Enable and run only after the upstream licensing discrepancy is clarified.
-# See docs/DEPLOYMENT.md. A push alone does not publish this preparation branch.
 on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
   workflow_dispatch:
 
 permissions:

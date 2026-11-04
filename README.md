@@ -1,13 +1,13 @@
 # Stack Frame Interactive Visualizer
 
-> **Mention25 的 GitHub Pages 本地准备版本（尚未上线）**
+> **[在线体验：调用栈通用演示](https://mention25.github.io/Stack-Frame-Visualization/)**
 >
 > 原作者：[Nick Zhu (NickZhuxy)](https://github.com/NickZhuxy)；原项目：[Stack-Frame-Visualization](https://github.com/NickZhuxy/Stack-Frame-Visualization)。
 > 本版本增加部署配置、中文用途说明与来源标注。原有通用示例与可视化实现来自上游，不包含课程实验二进制。
 > 这是预设轨迹的教学演示；理解原理后，应使用 GDB/GEF 在实际二进制中验证，不能把演示状态作为实验程序的标准答案。
 >
-> **许可尚待原作者澄清：** 下方原始 README 写 MIT，原始 package.json 写 ISC，且没有独立 LICENSE 文件。两处声明均保留；正式发布前需确认。
-> 部署状态、预览方式和后续发布步骤见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
+> **许可说明：** 下方原始 README 写 MIT，原始 package.json 写 ISC，且上游没有独立 LICENSE 文件。本版本保留两处声明、原作者署名及两种许可全文；上游声明尚未统一，不据此宣称获得了双重许可或额外授权。详见 [NOTICE.md](NOTICE.md)。
+> 由 [Mention25](https://github.com/Mention25/Stack-Frame-Visualization) 部署维护；构建、预览与发布方式见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
 
 ---
 
