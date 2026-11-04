@@ -1,6 +1,10 @@
 # GitHub Pages 部署
 
-本版本部署到 Mention25 的个人 GitHub Pages，使用独立通用示例，并保留原作者、项目与教学材料来源。
+本版本已部署到 Mention25 的个人 GitHub Pages，使用独立通用示例，并保留原作者、项目与教学材料来源。
+
+2026-11-04（北京时间）部署完成并验证：<https://mention25.github.io/Stack-Frame-Visualization/>。
+发布源码提交：`c479f5c3409320fa1117ccdca06f4f1ac75f915c`。
+成功工作流：[41809569651](https://github.com/Mention25/Stack-Frame-Visualization/actions/runs/41809569651)（build 与 deploy 均成功）。
 
 ## 目标
 
@@ -62,4 +66,7 @@ npm run preview -- --host 127.0.0.1 --port 4173
 - 在 Edge 无头浏览器中，使用生产构建的 `/Stack-Frame-Visualization/` 子路径验证：29 个步骤、前进/后退/回到开头、方向键、播放/暂停、阶段跳转及来源页面均通过；没有浏览器异常、资源加载错误或外部网络请求。
 - 浏览器验证记录：`.local/verification.json`；桌面预览截图：`.local/preview.png`。这些本机检查文件不提交至远程仓库。
 - `src/traces/` 与上游一致；此次未改动教学轨迹。
-- 本次验证覆盖页面交互和部署准备，不代表完成对示意轨迹的真实二进制验证，也不代表线上部署已通过。
+- 构建依赖已在现有版本约束内更新，Vite 从 7.3.1 更新为 7.3.7，`npm audit fix` 最终报告 0 个漏洞。React、React DOM、Scheduler 版本保持不变。
+- 已在公开 HTTPS 地址上运行同一浏览器交互检查：29 步、前进/回退、播放/暂停、阶段跳转与来源页均通过；没有浏览器异常或站外资源请求。
+- 首页、来源页、MIT 全文、ISC 全文及第三方依赖声明均返回 HTTP 200，GitHub Pages 子路径下的脚本和样式加载正常。
+- 本次验证覆盖页面交互和公开托管，不代表完成对示意轨迹的真实二进制验证。
