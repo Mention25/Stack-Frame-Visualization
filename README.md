@@ -3,11 +3,21 @@
 > **[在线体验：调用栈通用演示](https://mention25.github.io/Stack-Frame-Visualization/)**
 >
 > 原作者：[Nick Zhu (NickZhuxy)](https://github.com/NickZhuxy)；原项目：[Stack-Frame-Visualization](https://github.com/NickZhuxy/Stack-Frame-Visualization)。
-> 本版本增加部署配置、中文用途说明与来源标注。原有通用示例与可视化实现来自上游，不包含课程实验二进制。
-> 这是预设轨迹的教学演示；理解原理后，应使用 GDB/GEF 在实际二进制中验证，不能把演示状态作为实验程序的标准答案。
+> 本版本新增可输入 AT&T / Intel 汇编的教学解释器，自动计算调用栈、寄存器和分支，并支持单步、回退及播放。“固定示例”模式保留上游的原有可视化与通用轨迹。两个模式都不包含课程实验二进制。
+> 理解原理后，应使用 GDB/GEF 在实际二进制中验证，不能把演示状态作为实验程序的标准答案。
 >
 > **许可说明：** 下方原始 README 写 MIT，原始 package.json 写 ISC，且上游没有独立 LICENSE 文件。本版本保留两处声明、原作者署名及两种许可全文；上游声明尚未统一，不据此宣称获得了双重许可或额外授权。详见 [NOTICE.md](NOTICE.md)。
 > 由 [Mention25](https://github.com/Mention25/Stack-Frame-Visualization) 部署维护；构建、预览与发布方式见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
+
+---
+
+## 输入自己的汇编
+
+打开网页后选择语法，在左侧输入代码，点击 **执行代码**（或 Ctrl / Command + Enter），再使用单步、回退、播放或进度条观察自动生成的执行过程。修改代码后需再次执行。草稿仅保存在当前浏览器；示例菜单提供函数调用、递归阶乘和循环求和。
+
+解释器支持常用 32/64 位整数指令、16 个通用寄存器、栈寻址和直接标签调用／跳转；不支持的指令会报告源码行号。可用栈为 4 KiB，执行上限为 2000 步。它解释指令语义，不生成机器码；显示的代码地址是虚拟编号。
+
+完整语法、指令范围和执行约定见 [汇编执行说明](docs/ASSEMBLY.md)。运行 `npm test` 可检查解释器行为；x86-64 环境中存在 GCC 时，还会将示例和算术标志位与实际汇编后的程序对照。
 
 ---
 

@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useState } from "react";
 import { appReducer, initialState } from "./state";
 import { traces } from "./traces";
 import { colors } from "./styles/theme";
@@ -9,6 +9,7 @@ import { RegisterPanel } from "./components/RegisterPanel";
 import { NarrationBox } from "./components/NarrationBox";
 import { TransportBar } from "./components/TransportBar";
 import { ResizableGrid } from "./components/ResizableGrid";
+import { AssemblyPlayground } from "./components/AssemblyPlayground";
 
 // Legend component showing color coding for functions and pointers
 const Legend: React.FC = () => (
@@ -116,7 +117,7 @@ const TraceSelector: React.FC<{
   </select>
 );
 
-export const App: React.FC = () => {
+const GuidedDemo: React.FC = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const trace = traces.find((t) => t.id === state.activeTraceId) ?? traces[0];
   const step = trace.steps[state.currentStep];
@@ -137,6 +138,8 @@ export const App: React.FC = () => {
   // Keyboard shortcuts effect
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLElement && e.target.closest("input, textarea, select, button, a")) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       switch (e.key) {
         case "ArrowRight":
           dispatch({ type: "NEXT_STEP", maxStep });
@@ -268,4 +271,17 @@ export const App: React.FC = () => {
       />
     </div>
   );
+};
+
+export const App: React.FC = () => {
+  const [mode, setMode] = useState("interactive");
+  return <div className="workspace">
+    <header className="mode-nav"><strong>调用栈可视化</strong><div className="mode-tabs" role="tablist" aria-label="演示模式">
+      <button id="interactive-tab" role="tab" aria-selected={mode === "interactive"} aria-controls="mode-panel" onClick={() => setMode("interactive")}>输入汇编</button>
+      <button id="guided-tab" role="tab" aria-selected={mode === "guided"} aria-controls="mode-panel" onClick={() => setMode("guided")}>固定示例</button>
+    </div></header>
+    <main className="mode-content" id="mode-panel" role="tabpanel" aria-labelledby={`${mode}-tab`}>
+      {mode === "interactive" ? <AssemblyPlayground /> : <GuidedDemo />}
+    </main>
+  </div>;
 };

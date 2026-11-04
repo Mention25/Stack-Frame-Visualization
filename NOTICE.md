@@ -13,6 +13,8 @@ The copyright attribution in the accompanying texts was added by the deployment 
 
 Deployment adaptation, Chinese usage guidance, attribution and hosting configuration are maintained by [Mention25](https://github.com/Mention25/Stack-Frame-Visualization). This is an independent deployment, without endorsement from the upstream author, NYU, or the ICS course team.
 
+The browser assembly interpreter (`src/emulator`), editable execution workspace, new assembly examples and execution tests are additions maintained by Mention25. They are separate from the upstream fixed trace; their behavior is not attributed to Nick Zhu or the NYU course materials.
+
 React, React DOM and Scheduler retain their original notices in [third-party-notices.txt](public/third-party-notices.txt).
 
 Canonical license texts: [MIT / OSI](https://opensource.org/license/mit), [ISC / OSI](https://opensource.org/license/isc).
