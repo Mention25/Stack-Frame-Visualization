@@ -10,6 +10,7 @@ import { NarrationBox } from "./components/NarrationBox";
 import { TransportBar } from "./components/TransportBar";
 import { ResizableGrid } from "./components/ResizableGrid";
 import { AssemblyPlayground } from "./components/AssemblyPlayground";
+import { StackLesson } from "./components/StackLesson";
 
 // Legend component showing color coding for functions and pointers
 const Legend: React.FC = () => (
@@ -274,14 +275,15 @@ const GuidedDemo: React.FC = () => {
 };
 
 export const App: React.FC = () => {
-  const [mode, setMode] = useState("interactive");
+  const [mode, setMode] = useState("lesson");
   return <div className="workspace">
     <header className="mode-nav"><strong>调用栈可视化</strong><div className="mode-tabs" role="tablist" aria-label="演示模式">
+      <button id="lesson-tab" role="tab" aria-selected={mode === "lesson"} aria-controls="mode-panel" onClick={() => setMode("lesson")}>调用栈入门</button>
       <button id="interactive-tab" role="tab" aria-selected={mode === "interactive"} aria-controls="mode-panel" onClick={() => setMode("interactive")}>输入汇编</button>
-      <button id="guided-tab" role="tab" aria-selected={mode === "guided"} aria-controls="mode-panel" onClick={() => setMode("guided")}>固定示例</button>
+      <button id="guided-tab" role="tab" aria-selected={mode === "guided"} aria-controls="mode-panel" onClick={() => setMode("guided")}>原版示例</button>
     </div></header>
     <main className="mode-content" id="mode-panel" role="tabpanel" aria-labelledby={`${mode}-tab`}>
-      {mode === "interactive" ? <AssemblyPlayground /> : <GuidedDemo />}
+      {mode === "lesson" ? <StackLesson /> : mode === "interactive" ? <AssemblyPlayground /> : <GuidedDemo />}
     </main>
   </div>;
 };

@@ -19,11 +19,11 @@ function attempt(draft: Draft) {
 }
 const formatValue = (value: bigint, decimal: boolean) => decimal ? BigInt.asIntN(64, value).toString() : hex(value);
 
-function RegisterView({ state, previous, decimal }: { state: MachineState; previous?: MachineState; decimal: boolean }) {
+export function RegisterView({ state, previous, decimal, compact = false }: { state: MachineState; previous?: MachineState; decimal: boolean; compact?: boolean }) {
   return <section className="live-panel register-section" aria-label="寄存器">
     <div className="panel-heading"><h2>寄存器</h2><span>变化值高亮</span></div>
     <div className="register-grid">
-      {REGISTER_NAMES.map(name => <div key={name} className={`live-register ${previous && previous.registers[name] !== state.registers[name] ? "changed" : ""}`}>
+      {REGISTER_NAMES.filter(name => !compact || ["rax", "rdi", "rbp", "rsp"].includes(name)).map(name => <div key={name} className={`live-register ${previous && previous.registers[name] !== state.registers[name] ? "changed" : ""}`}>
         <span>{name.toUpperCase()}</span><output data-register={name} title={`无符号值 ${state.registers[name]}`}>{formatValue(state.registers[name], decimal)}</output>
       </div>)}
     </div>
@@ -32,8 +32,19 @@ function RegisterView({ state, previous, decimal }: { state: MachineState; previ
   </section>;
 }
 
-function StackMemory({ state, previous, decimal }: { state: MachineState; previous?: MachineState; decimal: boolean }) {
+export function StackMemory({ state, previous, decimal, lesson = false }: { state: MachineState; previous?: MachineState; decimal: boolean; lesson?: boolean }) {
   const [showFreed, setShowFreed] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!lesson) return;
+    const parent = scrollRef.current;
+    const active = parent?.querySelector<HTMLElement>(".at-rsp");
+    if (parent && active) {
+      const box = active.getBoundingClientRect(), viewport = parent.getBoundingClientRect();
+      if (box.top < viewport.top) parent.scrollTop += box.top - viewport.top;
+      else if (box.bottom > viewport.bottom) parent.scrollTop += box.bottom - viewport.bottom;
+    }
+  }, [lesson, state.registers.rsp, showFreed]);
   const rsp = Number(state.registers.rsp), rbp = Number(state.registers.rbp);
   let low = Math.max(STACK_BASE, Math.floor(rsp / 8) * 8);
   if (showFreed) {
@@ -47,7 +58,7 @@ function StackMemory({ state, previous, decimal }: { state: MachineState; previo
     <div className="stack-summary"><span>RSP <b>{hex(state.registers.rsp, 4)}</b></span><span>RBP <b>{hex(state.registers.rbp, 4)}</b></span></div>
     <label className="freed-toggle"><input type="checkbox" checked={showFreed} onChange={event => setShowFreed(event.target.checked)} />查看已释放位置的残留数据</label>
     <div className="stack-direction">高地址</div>
-    <div className="live-stack-scroll">
+    <div className="live-stack-scroll" ref={scrollRef}>
       {rows.length === 0 && <p className="empty-stack">栈空间已释放，入口函数已返回。</p>}
       {rows.map(address => {
         const offset = address - STACK_BASE;
@@ -64,7 +75,12 @@ function StackMemory({ state, previous, decimal }: { state: MachineState; previo
         const returned = state.frames.find(frame => frame.stackAddress === address);
         const owner = [...state.frames].reverse().find(frame => address <= frame.stackAddress);
         const freed = address + 8 <= rsp;
-        const label = returned ? (returned.returnAddress === END_ADDRESS ? "入口返回标记" : `${returned.name} 的返回地址`) : owner ? `${owner.name} 的栈空间` : "残留数据";
+        let label = returned ? (returned.returnAddress === END_ADDRESS ? "入口返回标记" : `${returned.name} 的返回地址`) : owner ? `${owner.name} 的栈空间` : "残留数据";
+        if (lesson && owner && !returned && !freed) {
+          if (address === owner.stackAddress - 8) label = `${owner.name} 保存的调用者 RBP`;
+          else if (owner.name === "foo" && address === owner.stackAddress - 16) label = complete ? "foo 的局部槽 x = 7" : "foo 的局部槽 x（未初始化）";
+          else label = `${owner.name} 的对齐空间（未写入）`;
+        }
         return <div key={address} data-stack-address={address} className={`memory-row ${changed ? "memory-changed" : ""} ${freed ? "memory-freed" : ""} ${atRsp ? "at-rsp" : ""}`}>
           <div className="memory-address"><span>{hex(BigInt(address), 4)}</span><span>{atRsp && <b>← RSP{rsp !== address ? `+${rsp - address}` : ""}</b>}{atRbp && <em>← RBP{rbp !== address ? `+${rbp - address}` : ""}</em>}</span></div>
           <output title={`从低地址到高地址：${bytes.join(" ")}`}>{complete ? formatValue(word, decimal) : `0x${[...bytes].reverse().join("")}`}</output>

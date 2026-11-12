@@ -1,5 +1,9 @@
 # Stack Frame Interactive Visualizer
 
+默认打开 **调用栈入门**：用独立的 `main → foo → bar` 示例，沿 9 个关键观察点单步执行 21 条指令，查看栈帧、局部变量、返回地址与寄存器变化。支持回退、播放、键盘操作及窄屏布局；提供同一示例的汇编下载和 GDB 验证步骤。
+
+教学约定、验证方法见 [调用栈入门说明](docs/LESSON.md)。已有的“输入汇编”和上游“原版示例”仍可从顶部切换。
+
 > **[在线体验：调用栈通用演示](https://mention25.github.io/Stack-Frame-Visualization/)**
 >
 > 原作者：[Nick Zhu (NickZhuxy)](https://github.com/NickZhuxy)；原项目：[Stack-Frame-Visualization](https://github.com/NickZhuxy/Stack-Frame-Visualization)。
