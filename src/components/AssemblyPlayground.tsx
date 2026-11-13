@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useReducer, useState } from "react";
 import { appReducer, initialState } from "../state";
 import type { AppAction } from "../state";
-import { AssemblyError, MAX_STEPS, runAssembly } from "../emulator/machine";
+import { AssemblyError, runAssembly } from "../emulator/machine";
 import type { Syntax } from "../emulator/machine";
 import { assemblyLines, displayRegisters, stackEntries } from "../emulator/presentation";
 import { examples } from "../emulator/examples";
@@ -104,6 +104,5 @@ export function AssemblyPlayground() {
       </ResizableGrid>
     </div>
     <fieldset className="transport-lock" disabled={!canNavigate}><TransportBar state={{...state,currentStep:cursor}} dispatch={navigate} maxStep={maxStep} phases={phases}/></fieldset>
-    <details className="classic-help"><summary>支持的语法与执行约定</summary><p>支持 AT&T / Intel，16 个通用寄存器及其 32 位别名；mov、lea、push/pop、整数算术、比较、条件跳转、call/ret/leave。4 KiB 栈，最多 {MAX_STEPS} 步。不支持系统调用、外部函数、数据段、8/16 位寄存器、浮点和 SIMD。</p><p>本页解释执行指令，不生成机器码；代码地址以固定间隔编号。修改代码后需再次执行；编辑器中的方向键不会触发步进。</p></details>
   </div>;
 }

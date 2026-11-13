@@ -15,9 +15,9 @@
   <h1>来源与许可说明</h1>
   <p>原项目：<a href="https://github.com/NickZhuxy/Stack-Frame-Visualization">Stack-Frame-Visualization</a>；原作者：<a href="https://github.com/NickZhuxy">Nick Zhu（NickZhuxy）</a>。</p>
   <p>原项目声明其教学材料来自 <a href="https://cs.nyu.edu/~mwalfish/classes/26sp/index.html">Michael Walfish 的 NYU CSCI-UA.0202 Operating Systems 课程</a>。本部署基于上游提交 <a href="https://github.com/NickZhuxy/Stack-Frame-Visualization/commit/8914d54ba0dd263ded7d75d31a2e607e93ea80b1"><code>8914d54ba0dd263ded7d75d31a2e607e93ea80b1</code></a>。</p>
-  <p>Mention25 维护新增的汇编教学解释器、输入编辑器、动态栈视图、执行历史与独立示例，并负责 GitHub Pages 部署。原版示例模式的原有可视化实现和 main → f → g 教学轨迹来自上游。本页不代表原作者、NYU 或课程团队的官方发布或背书。</p>
+  <p>Mention25 维护新增的汇编教学解释器、输入编辑器、动态栈视图、执行历史与独立示例，并负责 GitHub Pages 部署。页面的可视化组件与设计沿用上游项目；当前仅提供汇编输入页面。本页不代表原作者、NYU 或课程团队的官方发布或背书。</p>
   <h2>适用范围</h2><p>默认的“输入汇编”模式内置独立的 main → foo → bar 示例，可编辑并执行 AT&T / Intel 汇编；状态由教学解释器计算。示例采用 System V AMD64 参数约定并保留帧指针，虚拟地址与寄存器初值不代表实际运行环境。</p>
-  <p>“输入汇编”模式在浏览器中解释执行受支持的指令，自动计算栈、寄存器和控制流；代码地址使用虚拟编号，不生成真实机器码。“原版示例”模式保留上游的预设教学轨迹。两个模式均用于通用原理演示，不读取或运行课程实验二进制，不能用演示状态作为实验程序的标准答案。</p>
+  <p>页面在浏览器中解释执行受支持的指令，自动计算栈、寄存器和控制流；代码地址使用虚拟编号，不生成真实机器码。页面用于通用原理演示，不读取或运行课程实验二进制，不能用演示状态作为实验程序的标准答案。</p>
   <h2>许可状态</h2>
   <p class="status">上游 README 标注 MIT，package.json 标注 ISC，上游快照未包含独立 LICENSE 文件。本部署依据这些公开声明，保留原作者及材料来源，并同时附上两种许可全文与免责声明。截至 2026-11-04，上游声明尚未统一；同时附载文本不代表原作者确认了双重许可，也不代表获得了额外授权。</p>
   <p>许可全文：<a href="licenses/MIT.txt">MIT</a> · <a href="licenses/ISC.txt">ISC</a>。文本中的 Nick Zhu 版权署名由部署维护者依据上游作者及提交年份补充，并非转录自不存在的上游 LICENSE 文件。此说明不扩大上游对第三方材料可能拥有的权利。</p>
