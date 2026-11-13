@@ -22,3 +22,11 @@ export const colors = {
   fColor: "#4ecdc4",
   gColor: "#ffe66d",
 };
+
+export const frameColor = (name: string): string => {
+  if (name === "main") return colors.mainColor;
+  if (["f", "foo"].includes(name)) return colors.fColor;
+  if (["g", "bar"].includes(name)) return colors.gColor;
+  const palette = [colors.fColor, colors.gColor, colors.register, colors.keyword];
+  return palette[[...name].reduce((sum, char) => sum + char.charCodeAt(0), 0) % palette.length];
+};

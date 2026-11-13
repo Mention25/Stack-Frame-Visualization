@@ -28,10 +28,6 @@ bar:
     popq %rbp
     ret
 `;
-export const lessonC = `long bar(long x) { return 2 * x; }
-long foo(long x) { return bar(x) + 1; }
-int main(void) { return (int)foo(7); }`;
-
 export function lessonCheckpoints(execution: Execution) {
   const locate = (instruction: string, frame: string) => execution.states.findIndex(s => s.lastInstruction === instruction && s.frames.at(-1)?.name === frame);
   return [

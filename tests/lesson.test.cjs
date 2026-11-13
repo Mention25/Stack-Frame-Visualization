@@ -1,8 +1,8 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const { runAssembly, readMemory, instructionAddress } = require('../.local/test-build/machine.js');
-const { lessonSource, lessonCheckpoints } = require('../.local/test-build/lesson.js');
+const { runAssembly, readMemory, instructionAddress } = require('../.local/test-build/emulator/machine.js');
+const { lessonSource, lessonCheckpoints } = require('../.local/test-build/emulator/lesson.js');
 
 test('lesson checkpoints preserve call, frame, alignment and return semantics', () => {
   const run = runAssembly(lessonSource);

@@ -2,7 +2,8 @@ import { useReducer, useEffect, useState } from "react";
 import { appReducer, initialState } from "./state";
 import { traces } from "./traces";
 import { colors } from "./styles/theme";
-import { CCodePanel } from "./components/CCodePanel";
+import { Legend } from "./components/Legend";
+import "./styles/classic.css";
 import { AsmPanel } from "./components/AsmPanel";
 import { StackView } from "./components/StackView";
 import { RegisterPanel } from "./components/RegisterPanel";
@@ -11,83 +12,6 @@ import { TransportBar } from "./components/TransportBar";
 import { ResizableGrid } from "./components/ResizableGrid";
 import { AssemblyPlayground } from "./components/AssemblyPlayground";
 import { StackLesson } from "./components/StackLesson";
-
-// Legend component showing color coding for functions and pointers
-const Legend: React.FC = () => (
-  <div
-    style={{
-      background: colors.bg,
-      borderRadius: 8,
-      padding: "8px 12px",
-      border: `1px solid ${colors.stackBorder}`,
-      fontFamily: "monospace",
-      fontSize: 10,
-    }}
-  >
-    <div
-      style={{
-        color: colors.textDim,
-        marginBottom: 4,
-        fontSize: 11,
-        fontWeight: 700,
-      }}
-    >
-      LEGEND
-    </div>
-    <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-      <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-        <div
-          style={{
-            width: 10,
-            height: 10,
-            background: colors.mainColor,
-            borderRadius: 2,
-          }}
-        />
-        <span style={{ color: colors.text }}>main() frame</span>
-      </div>
-      <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-        <div
-          style={{
-            width: 10,
-            height: 10,
-            background: colors.fColor,
-            borderRadius: 2,
-          }}
-        />
-        <span style={{ color: colors.text }}>f() frame</span>
-      </div>
-      <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-        <div
-          style={{
-            width: 10,
-            height: 10,
-            background: colors.gColor,
-            borderRadius: 2,
-          }}
-        />
-        <span style={{ color: colors.text }}>g() frame</span>
-      </div>
-      <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-        <span
-          style={{
-            color: colors.registerChanged,
-            fontWeight: 700,
-          }}
-        >
-          %rsp
-        </span>
-        <span style={{ color: colors.text }}>stack pointer</span>
-      </div>
-      <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-        <span style={{ color: colors.register, fontWeight: 700 }}>
-          %rbp
-        </span>
-        <span style={{ color: colors.text }}>frame pointer</span>
-      </div>
-    </div>
-  </div>
-);
 
 // TraceSelector dropdown component
 const TraceSelector: React.FC<{
@@ -167,7 +91,7 @@ const GuidedDemo: React.FC = () => {
 
   return (
     <div
-      className="visualizer-app"
+      className="visualizer-app classic-workspace"
       style={{
         height: "100%",
         background: colors.bgLight,
@@ -214,16 +138,9 @@ const GuidedDemo: React.FC = () => {
         </p>
       </aside>
 
-      {/* Main four-column resizable grid */}
-      <div style={{ flex: 1, minHeight: 0, padding: "12px 16px 12px 12px", overflow: "hidden", display: "flex" }}>
-        <ResizableGrid storageKey="stack-frame-column-widths">
-          {/* Column 1: C Code Panel */}
-          <CCodePanel
-            cCode={trace.cCode}
-            activeLine={step.cCodeLine}
-            currentFunction={step.currentFunction}
-          />
-
+      {/* Upstream three-column layout, with the C panel removed. */}
+      <div className="classic-grid">
+        <ResizableGrid storageKey="original-three-columns-v1">
           {/* Column 2: Assembly Panel */}
           <AsmPanel
             asmCode={trace.asmCode}
@@ -234,13 +151,13 @@ const GuidedDemo: React.FC = () => {
           {/* Column 3: Stack View */}
           <StackView
             stack={step.stack}
-            rsp={step.registers.rsp}
-            rbp={step.registers.rbp}
+            rsp={Number(step.registers.rsp)}
+            rbp={Number(step.registers.rbp)}
             currentFunction={step.currentFunction}
           />
 
           {/* Column 4: Registers + Narration + Legend */}
-          <div
+          <div className="classic-sidebar"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -285,5 +202,6 @@ export const App: React.FC = () => {
     <main className="mode-content" id="mode-panel" role="tabpanel" aria-labelledby={`${mode}-tab`}>
       {mode === "lesson" ? <StackLesson /> : mode === "interactive" ? <AssemblyPlayground /> : <GuidedDemo />}
     </main>
+    <footer className="classic-footer">原作者 <a href="https://github.com/NickZhuxy/Stack-Frame-Visualization">Nick Zhu</a> · 扩展与维护 Mention25 · <a href={`${import.meta.env.BASE_URL}attribution.html`}>来源与许可</a></footer>
   </div>;
 };

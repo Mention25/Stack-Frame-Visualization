@@ -18,20 +18,21 @@ export const ResizableGrid: React.FC<Props> = ({
   storageKey = "resizable-grid-widths",
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const count = React.Children.count(children);
   const [widths, setWidths] = useState<number[]>(() => {
     // Try to load from localStorage
-    if (storageKey) {
-      const saved = localStorage.getItem(storageKey);
+    try {
+      const saved = storageKey && localStorage.getItem(storageKey);
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length === 4) {
+          if (Array.isArray(parsed) && parsed.length === count && parsed.every(value => Number.isFinite(value) && value >= minWidth)) {
             return parsed;
           }
         } catch {}
       }
-    }
-    return DEFAULT_WIDTHS;
+    } catch { /* Storage is optional. */ }
+    return count === 3 ? [300, 400, 260] : DEFAULT_WIDTHS.slice(0, count);
   });
 
   const [dragging, setDragging] = useState<number | null>(null);
@@ -42,7 +43,7 @@ export const ResizableGrid: React.FC<Props> = ({
   // Save to localStorage when widths change
   useEffect(() => {
     if (storageKey) {
-      localStorage.setItem(storageKey, JSON.stringify(widths));
+      try { localStorage.setItem(storageKey, JSON.stringify(widths)); } catch { /* Storage is optional. */ }
     }
   }, [widths, storageKey]);
 
@@ -104,6 +105,7 @@ export const ResizableGrid: React.FC<Props> = ({
 
   return (
     <div
+      className="resizable-grid"
       ref={containerRef}
       style={{
         display: "flex",
@@ -119,6 +121,7 @@ export const ResizableGrid: React.FC<Props> = ({
           <React.Fragment key={index}>
             {/* Column */}
             <div
+              className="resizable-column"
               style={{
                 width: `calc(${widthPercent}% - ${dividerOffset}px)`,
                 flexShrink: 0,
@@ -132,6 +135,7 @@ export const ResizableGrid: React.FC<Props> = ({
           {/* Divider (not after last column) */}
           {index < children.length - 1 && (
             <div
+              className="column-divider"
               onMouseDown={(e) => handleMouseDown(index, e)}
               onMouseEnter={() => setHovered(index)}
               onMouseLeave={() => setHovered(null)}

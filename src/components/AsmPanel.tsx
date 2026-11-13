@@ -6,19 +6,25 @@ type Props = {
   asmCode: AsmLine[];
   activeLine: number;
   currentFunction: string;
+  nextLine?: number;
+  toolbar?: React.ReactNode;
 };
 
-export const AsmPanel: React.FC<Props> = ({ asmCode, activeLine, currentFunction }) => {
+export const AsmPanel: React.FC<Props> = ({ asmCode, activeLine, currentFunction, nextLine, toolbar }) => {
   const activeRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (activeRef.current) {
-      activeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    const row = activeRef.current, parent = scrollRef.current;
+    if (row && parent) {
+      const box = row.getBoundingClientRect(), bounds = parent.getBoundingClientRect();
+      if (box.top < bounds.top || box.bottom > bounds.bottom) parent.scrollTop += box.top - bounds.top - parent.clientHeight / 3;
     }
   }, [activeLine]);
 
   return (
     <div
+      className="upstream-assembly"
       style={{
         background: colors.bgPanel,
         borderRadius: 8,
@@ -42,13 +48,15 @@ export const AsmPanel: React.FC<Props> = ({ asmCode, activeLine, currentFunction
       >
         x86-64 ASSEMBLY
       </div>
-      <div style={{ flex: 1, overflow: "auto" }}>
+      {toolbar}
+      <div ref={scrollRef} style={{ flex: 1, overflow: "auto" }}>
         {asmCode.map((line) => {
           const isActive = activeLine === line.num;
           const isFnActive = line.fn === currentFunction;
 
           return (
             <div
+              data-active={isActive || undefined}
               key={`${line.num}-${line.text}`}
               ref={isActive ? activeRef : null}
               style={{
@@ -84,6 +92,7 @@ export const AsmPanel: React.FC<Props> = ({ asmCode, activeLine, currentFunction
                     # {line.comment}
                   </span>
                 )}
+                {nextLine === line.num && <span style={{ color: colors.function, marginLeft: 8 }}>← next</span>}
               </span>
             </div>
           );
@@ -94,10 +103,10 @@ export const AsmPanel: React.FC<Props> = ({ asmCode, activeLine, currentFunction
 };
 
 function colorizeAsm(text: string): React.ReactNode {
-  const keywords = ["pushq", "popq", "movq", "subq", "addq", "leaq", "call", "ret"];
+  const keywords = ["movslq", "movsxd", "pushq", "popq", "movq", "movl", "subq", "subl", "addq", "addl", "leaq", "leave", "call", "ret", "push", "pop", "mov", "lea", "sub", "add", "imulq", "imull", "imul", "cmpq", "cmpl", "cmp", "xorq", "xorl", "xor", "testq", "test", "decq", "decl", "dec", "incq", "inc", "jnz", "jle", "jmp", "jne", "je", "jg", "jge", "jl", "nop"];
 
-  return text.split(/(%\w+|\$\w+)/).map((part, i) => {
-    if (part.startsWith("%")) {
+  return text.split(/(%\w+|\$-?(?:0x[\da-f]+|\d+)|\b(?:r(?:[abcd]x|[sb]p|[sd]i|[89]|1[0-5])|e(?:[abcd]x|[sb]p|[sd]i))\b)/i).map((part, i) => {
+    if (part.startsWith("%") || /^(?:r(?:[abcd]x|[sb]p|[sd]i|[89]|1[0-5])|e(?:[abcd]x|[sb]p|[sd]i))$/i.test(part)) {
       return <span key={i} style={{ color: colors.register }}>{part}</span>;
     }
     if (part.startsWith("$")) {

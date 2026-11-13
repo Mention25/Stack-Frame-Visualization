@@ -52,6 +52,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
 
   return (
     <div
+      className="upstream-transport"
       style={{
         background: colors.bgPanel,
         borderRadius: 8,
@@ -63,6 +64,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
     >
       {/* Phase labels above scrubber */}
       <div
+        className="phase-labels"
         style={{
           position: "relative",
           height: 24,
@@ -76,7 +78,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
             style={{
               position: "absolute",
               left: `${getPhasePosition(phase.startStep)}%`,
-              transform: "translateX(-50%)",
+              transform: phase.startStep === 0 ? "none" : phase.startStep === maxStep ? "translateX(-100%)" : "translateX(-50%)",
               background: "transparent",
               border: "none",
               color: colors.textDim,
@@ -129,6 +131,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
 
         {/* Range input scrubber */}
         <input
+          aria-label="执行进度"
           type="range"
           min={0}
           max={maxStep}
@@ -138,7 +141,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
             width: "100%",
             height: 8,
             borderRadius: 4,
-            background: `linear-gradient(to right, ${colors.stackHighlight} 0%, ${colors.stackHighlight} ${(state.currentStep / maxStep) * 100}%, ${colors.stackFrame} ${(state.currentStep / maxStep) * 100}%, ${colors.stackFrame} 100%)`,
+            background: `linear-gradient(to right, ${colors.stackHighlight} 0%, ${colors.stackHighlight} ${maxStep ? (state.currentStep / maxStep) * 100 : 0}%, ${colors.stackFrame} ${maxStep ? (state.currentStep / maxStep) * 100 : 0}%, ${colors.stackFrame} 100%)`,
             appearance: "none",
             cursor: "pointer",
             outline: "none",
@@ -178,6 +181,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
 
       {/* Controls row */}
       <div
+        className="transport-controls"
         style={{
           display: "flex",
           alignItems: "center",
@@ -198,6 +202,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
               e.currentTarget.style.borderColor = colors.stackBorder;
             }}
             title="First step"
+            aria-label="重置"
           >
             |&#9665;
           </button>
@@ -212,6 +217,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
               e.currentTarget.style.borderColor = colors.stackBorder;
             }}
             title="Previous step"
+            aria-label="上一步"
           >
             &#9665;
           </button>
@@ -234,6 +240,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
               e.currentTarget.style.borderColor = colors.stackBorder;
             }}
             title={state.isPlaying ? "Pause" : "Play"}
+            aria-label={state.isPlaying ? "暂停" : "播放"}
           >
             {state.isPlaying ? "\u23F8" : "\u25B6"}
           </button>
@@ -248,6 +255,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
               e.currentTarget.style.borderColor = colors.stackBorder;
             }}
             title="Next step"
+            aria-label="下一步"
           >
             &#9655;
           </button>
@@ -262,6 +270,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
               e.currentTarget.style.borderColor = colors.stackBorder;
             }}
             title="Last step"
+            aria-label="到最后"
           >
             &#9655;|
           </button>
@@ -269,6 +278,7 @@ export const TransportBar: React.FC<TransportBarProps> = ({
 
         {/* Step counter */}
         <div
+          className="step-count"
           style={{
             color: colors.text,
             fontSize: 14,

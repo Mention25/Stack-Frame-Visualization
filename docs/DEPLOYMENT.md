@@ -42,7 +42,7 @@
 - Vite `base` 指向 `/Stack-Frame-Visualization/`。
 - GitHub Actions 工作流安装依赖、检查 TypeScript、构建并发布 `dist`。
 - `main` 分支代码更新会触发构建和发布，亦可手动触发；仅修改 README 或 docs 不重复发布。
-- 页面顶部直接展示原作者、项目来源、NYU 教学材料来源和通用演示说明。
+- 页面保留原作者、项目来源和通用演示说明，完整来源与 NYU 教学材料链接可在来源页查看。
 - `public/attribution.html` 随构建发布，记录来源及许可状态。
 - 保留原始教学轨迹，没有加入任何 ICS 实验二进制或相关答案。
 - 移除 Google Fonts 请求，使用本机等宽字体，演示运行不依赖外部字体站点。
@@ -66,7 +66,7 @@ npm run build
 npm run preview -- --host 127.0.0.1 --port 4173
 ```
 
-打开 `http://127.0.0.1:4173/Stack-Frame-Visualization/`。推荐桌面浏览器；窄屏可滚动查看四个面板。
+打开 `http://127.0.0.1:4173/Stack-Frame-Visualization/`。桌面采用原作者的三栏界面；窄屏按纵向排列各面板。
 应通过 HTTP 预览构建结果，不直接双击 dist/index.html。
 
 ## 发布与更新

@@ -5,13 +5,15 @@ import { colors } from "../styles/theme";
 type Props = {
   registers: RegisterState;
   prevRegisters?: RegisterState;
+  expanded?: boolean;
 };
 
 type RegisterKey = keyof RegisterState;
 
 const REGISTER_ORDER: RegisterKey[] = ["rsp", "rbp", "rip", "rax", "rdi"];
 
-export const RegisterPanel: React.FC<Props> = ({ registers, prevRegisters }) => {
+export const RegisterPanel: React.FC<Props> = ({ registers, prevRegisters, expanded = false }) => {
+  const order = expanded ? [...REGISTER_ORDER, ...Object.keys(registers).filter(key => !REGISTER_ORDER.includes(key))] : REGISTER_ORDER;
   const [flashingRegs, setFlashingRegs] = useState<Set<RegisterKey>>(new Set());
 
   // Detect changes and trigger flash effect
@@ -19,7 +21,7 @@ export const RegisterPanel: React.FC<Props> = ({ registers, prevRegisters }) => 
     if (!prevRegisters) return;
 
     const changedRegs = new Set<RegisterKey>();
-    for (const key of REGISTER_ORDER) {
+    for (const key of Object.keys(registers)) {
       const curr = registers[key];
       const prev = prevRegisters[key];
       if (curr !== prev) {
@@ -58,7 +60,7 @@ export const RegisterPanel: React.FC<Props> = ({ registers, prevRegisters }) => 
         REGISTERS
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-        {REGISTER_ORDER.map((key) => {
+        {order.map((key) => {
           const value = registers[key];
           const prevValue = prevRegisters?.[key];
           const hasChanged = prevRegisters !== undefined && value !== prevValue;
@@ -93,7 +95,7 @@ export const RegisterPanel: React.FC<Props> = ({ registers, prevRegisters }) => 
               >
                 %{key}
               </span>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", alignItems: "center", gap: 8, minWidth: 0, overflowWrap: "anywhere" }}>
                 {hasChanged && formattedPrevValue !== null && (
                   <span
                     style={{
@@ -108,6 +110,7 @@ export const RegisterPanel: React.FC<Props> = ({ registers, prevRegisters }) => 
                   </span>
                 )}
                 <span
+                  data-register={key}
                   style={{
                     color: colors.value,
                     fontWeight: 500,

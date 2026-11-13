@@ -1,0 +1,57 @@
+/* Supplemental controls use the upstream palette; the visualization panels remain upstream components. */
+.workspace { height: 100%; display: flex; flex-direction: column; background: #16213e; }
+.mode-nav { display: flex; align-items: center; gap: 24px; flex-shrink: 0; padding: 10px 16px; background: #0f1923; border-bottom: 1px solid #3282b8; font: 13px monospace; }
+.mode-nav strong { color: #00d9ff; }
+.mode-tabs { display: flex; gap: 6px; }
+.mode-tabs button, .classic-toolbar button, .classic-toolbar select { color: #eaeaea; background: #0f1923; border: 1px solid #3282b8; border-radius: 4px; padding: 6px 10px; font: 12px monospace; cursor: pointer; }
+.mode-tabs button[aria-selected=true] { background: #0f3460; border-color: #00d9ff; color: #00d9ff; }
+.mode-content { flex: 1; min-height: 0; overflow: auto; }
+.classic-workspace { display: flex; flex-direction: column; min-width: 0; min-height: 650px; height: 100%; background: #16213e; }
+.visualizer-app.classic-workspace { min-width: 0; min-height: 650px; }
+.visualizer-app > div:first-child { flex-wrap: wrap; gap: 8px; }
+.classic-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 8px 12px; font: 12px monospace; flex-shrink: 0; }
+.classic-toolbar strong { color: #8892b0; font-weight: 400; }
+.classic-toolbar label { display: flex; align-items: center; gap: 6px; color: #8892b0; }
+.classic-status { color: #8892b0; margin-left: auto; font-size: 11px; }
+.classic-context { padding: 0 12px 6px; color: #8892b0; font: 11px/1.7 monospace; flex-shrink: 0; }
+.classic-grid { display: flex; flex: 1; min-height: 350px; padding: 6px 8px 10px; }
+.classic-sidebar { display: flex; flex-direction: column; gap: 12px; height: 100%; overflow: auto; }
+.classic-sidebar > * { flex-shrink: 0; }
+.upstream-panel { background: #0f1923; border: 1px solid #3282b8; border-radius: 8px; padding: 8px 12px; }
+.assembly-editor { height: 100%; display: flex; flex-direction: column; min-width: 0; }
+.assembly-editor h2 { color: #00d9ff; font: 700 12px monospace; letter-spacing: 1px; margin-bottom: 8px; }
+.assembly-editor p, .assembly-caption { font: 10px/1.7 monospace; color: #8892b0; margin-bottom: 6px; }
+.assembly-editor textarea { flex: 1; min-height: 200px; width: 100%; resize: none; border: 0; background: #0f1923; color: #eaeaea; font: 12px/1.8 Consolas, monospace; tab-size: 4; padding: 4px; }
+.stack-options { font: 10px/1.7 monospace; color: #8892b0; text-align: center; margin-bottom: 8px; }
+.stack-options input { vertical-align: middle; accent-color: #00d9ff; }
+.is-editing .upstream-stack, .is-editing .classic-sidebar { opacity: .5; }
+.transport-lock { border: 0; min-width: 0; flex-shrink: 0; }
+.transport-lock:disabled { opacity: .5; }
+.classic-error { padding: 8px 12px; color: #ffb4bb; background: #3b2034; font: 12px/1.7 monospace; }
+.stage-note, .register-details { font: 11px/1.8 monospace; color: #8892b0; }
+.stage-note p { padding-top: 6px; color: #eaeaea; }
+.register-details { padding: 0 8px; }
+summary { cursor: pointer; }
+.classic-help { margin: 8px 12px; border: 1px solid #3282b8; border-radius: 6px; padding: 8px 12px; color: #8892b0; font: 12px/1.8 monospace; flex-shrink: 0; }
+.classic-help p { margin-top: 8px; }
+.classic-help pre { overflow: auto; margin-top: 8px; padding: 10px; background: #0f1923; color: #eaeaea; }
+.classic-help a, .classic-footer a { color: #82aaff; }
+.classic-footer { flex-shrink: 0; padding: 5px 12px; background: #0f1923; color: #8892b0; font: 10px/1.5 monospace; }
+button:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid #00d9ff !important; outline-offset: 2px; }
+@media (max-width: 760px) {
+  .mode-nav { flex-wrap: wrap; gap: 8px; }
+  .classic-workspace { height: auto !important; }
+  .classic-grid { flex: none; display: block; }
+  .resizable-grid { display: flex !important; flex-direction: column; gap: 10px; overflow: visible !important; }
+  .resizable-column { width: 100% !important; min-width: 0 !important; overflow: visible !important; }
+  .column-divider { display: none; }
+  .upstream-assembly, .assembly-editor { height: 380px !important; }
+  .upstream-stack { height: 420px !important; }
+  .classic-sidebar { height: auto !important; }
+  .transport-controls { flex-wrap: wrap; gap: 10px !important; }
+  .transport-controls button { padding: 8px 12px !important; }
+  .phase-labels { position: static !important; display: flex; flex-wrap: wrap; height: auto !important; gap: 6px; }
+  .phase-labels button { position: static !important; transform: none !important; }
+  .classic-status { margin-left: 0; }
+  .demo-context { font-size: 11px; }
+}

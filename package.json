@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "tsc --target ES2022 --module commonjs --moduleResolution node --skipLibCheck --outDir .local/test-build src/emulator/machine.ts src/emulator/examples.ts && node --test tests/*.test.cjs"
+    "test": "tsc --target ES2022 --module commonjs --moduleResolution node --skipLibCheck --rootDir src --outDir .local/test-build src/emulator/machine.ts src/emulator/examples.ts src/emulator/presentation.ts && node --test tests/*.test.cjs"
   },
   "keywords": [],
   "author": "",

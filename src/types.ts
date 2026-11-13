@@ -3,11 +3,15 @@ export type StackEntry = {
   value: string;
   label?: string;
   highlight?: boolean;
+  owner?: string;
+  freed?: boolean;
+  bytes?: string;
 };
 
 export type RegisterState = {
-  rsp: number;
-  rbp: number;
+  [key: string]: number | string | undefined;
+  rsp: number | string;
+  rbp: number | string;
   rip: string;
   rax?: string;
   rdi?: string;

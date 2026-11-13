@@ -1,7 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { runAssembly, parseAssembly, readMemory, instructionAddress, STACK_TOP, END_ADDRESS, AssemblyError } = require('../.local/test-build/machine.js');
-const { examples } = require('../.local/test-build/examples.js');
+const { runAssembly, parseAssembly, readMemory, instructionAddress, STACK_TOP, END_ADDRESS, AssemblyError } = require('../.local/test-build/emulator/machine.js');
+const { examples } = require('../.local/test-build/emulator/examples.js');
 const last = execution => execution.states.at(-1);
 function finished(source, syntax = 'att') {
   const result = runAssembly(source, syntax);
