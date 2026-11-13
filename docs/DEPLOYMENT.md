@@ -2,7 +2,17 @@
 
 本版本已部署到 Mention25 的个人 GitHub Pages，使用独立通用示例，并保留原作者、项目与教学材料来源。
 
-## 当前版本：合并输入页面（2026-11-13）
+## 当前版本：仅保留汇编输入（2026-11-13）
+
+- 公开地址：<https://mention25.github.io/Stack-Frame-Visualization/>。
+- 发布源码：`7c77d8f2981ba1fc51e8b2af0001560cd8fdfe64`。
+- 成功工作流：[43395359937](https://github.com/Mention25/Stack-Frame-Visualization/actions/runs/43395359937)，通过 workflow_dispatch 发布。
+- 删除“原版示例”页面、顶部模式页签和底部“支持的语法与执行约定”折叠区；页面直接提供汇编输入与可视化。
+- 保留原作者的三栏设计、通用汇编输入、示例菜单和执行控件，更新 README 与来源页中的功能描述。
+- TypeScript、生产构建和 24 项测试通过。本地生产预览确认删除项不存在，内置示例执行至 RAX=15，进度跳转正常，浏览器无错误。
+- 公开首页及 JS/CSS 返回 HTTP 200，线上资源哈希与本地生产构建一致。
+
+## 先前版本：合并输入页面（2026-11-13）
 
 - 公开地址：<https://mention25.github.io/Stack-Frame-Visualization/>。
 - 发布源码：`65e717ac14167eb35d667a68d688687445b166b8`。
