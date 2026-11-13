@@ -2,14 +2,21 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { runAssembly, readMemory, instructionAddress } = require('../.local/test-build/emulator/machine.js');
-const { lessonSource, lessonCheckpoints } = require('../.local/test-build/emulator/lesson.js');
+const { lessonSource } = require('../.local/test-build/emulator/lesson.js');
 
-test('lesson checkpoints preserve call, frame, alignment and return semantics', () => {
+test('nested example preserves call, frame, alignment and return semantics', () => {
   const run = runAssembly(lessonSource);
   assert.equal(run.complete, true);
-  const points = lessonCheckpoints(run);
-  assert.deepEqual(points.map(p => p.step), [0, 4, 5, 6, 7, 10, 18, 19, 21]);
-  const states = Object.fromEntries(points.map(p => [p.title, run.states[p.step]]));
+  const after = (instruction, frame) => run.states.find(s => s.lastInstruction === instruction && s.frames.at(-1)?.name === frame);
+  const states = {
+    call: after('call foo', 'foo'),
+    '建立栈帧': after('movq %rsp, %rbp', 'foo'),
+    '局部空间': after('subq $16, %rsp', 'foo'),
+    '嵌套调用': after('call bar', 'bar'),
+    leave: after('leave', 'foo'),
+    ret: after('ret', 'main'),
+    '结束': run.states.at(-1),
+  };
   assert.equal(states.call.registers.rbp, 0x7ff0n);
   assert.equal(readMemory(states.call, states.call.registers.rsp, 64), instructionAddress(4));
   assert.equal(states['建立栈帧'].registers.rbp, 0x7fe0n);
@@ -29,7 +36,7 @@ test('lesson checkpoints preserve call, frame, alignment and return semantics', 
   assert.equal(states['结束'].registers.rsp, 0x8000n);
 });
 
-test('downloadable assembly contains exactly the instructions shown in the lesson', () => {
+test('native assembly fixture matches the default nested example', () => {
   const source = fs.readFileSync('public/examples/stack-demo.s', 'utf8');
   const normalize = text => text.split('\n').map(line => line.replace(/#.*/, '').trim()).filter(line => line && !line.startsWith('.'));
   assert.deepEqual(normalize(source), normalize(lessonSource));

@@ -10,7 +10,7 @@ function finished(source, syntax = 'att') {
 }
 
 test('AT&T and Intel examples give the same registers, memory and call depths at every step', () => {
-  const a = finished(examples[0].source), b = finished(examples[1].source, 'intel');
+  const a = finished(examples.find(e => e.id === 'nested-att').source), b = finished(examples.find(e => e.id === 'nested-intel').source, 'intel');
   assert.equal(a.states.length, b.states.length);
   a.states.forEach((state, i) => {
     assert.deepEqual(state.registers, b.states[i].registers);
@@ -24,7 +24,7 @@ test('AT&T and Intel examples give the same registers, memory and call depths at
 });
 
 test('call stores the next instruction address; return restores the caller', () => {
-  const run = finished(examples[0].source);
+  const run = finished(examples.find(e => e.id === 'nested-att').source);
   const call = run.states.findIndex(s => s.lastInstruction === 'call twice');
   const before = run.states[call - 1], after = run.states[call];
   assert.equal(after.registers.rsp, before.registers.rsp - 8n);
@@ -36,7 +36,7 @@ test('call stores the next instruction address; return restores the caller', () 
 });
 
 test('recursive calls preserve independent local variables and frames', () => {
-  const run = finished(examples[2].source);
+  const run = finished(examples.find(e => e.id === 'recursive').source);
   assert.equal(last(run).registers.rax, 120n);
   assert.equal(Math.max(...run.states.map(s => s.frames.length)), 6);
   assert.equal(last(run).frames.length, 0);
@@ -44,14 +44,14 @@ test('recursive calls preserve independent local variables and frames', () => {
 });
 
 test('conditional looping follows flags and ends with the computed sum', () => {
-  const run = finished(examples[3].source, 'intel');
+  const run = finished(examples.find(e => e.id === 'loop').source, 'intel');
   assert.equal(last(run).registers.rax, 15n);
   assert.equal(last(run).registers.rcx, 0n);
   assert.equal(run.states.filter(s => s.lastInstruction === 'add eax, ecx').length, 5);
 });
 
 test('snapshots are independent, including memory, registers and frames', () => {
-  const run = finished(examples[0].source);
+  const run = finished(examples.find(e => e.id === 'nested-att').source);
   const start = run.states[0];
   assert.equal(start.registers.rsp, BigInt(STACK_TOP - 8));
   assert.equal(readMemory(start, start.registers.rsp, 64), END_ADDRESS);

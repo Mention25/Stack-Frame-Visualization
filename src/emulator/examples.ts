@@ -2,6 +2,7 @@ import type { Syntax } from "./machine";
 import { lessonSource } from "./lesson";
 
 export const examples: { id: string; name: string; syntax: Syntax; source: string }[] = [
+  { id: "lesson", name: "嵌套调用 · main → foo → bar", syntax: "att", source: lessonSource },
   { id: "nested-att", name: "函数调用 · AT&T", syntax: "att", source: `# 修改参数 7，再点击“执行代码”观察结果
 # main → twice，返回 2 * 7 + 1 = 15
 main:
@@ -81,5 +82,4 @@ loop_sum:
     jnz loop_sum
     ret
 ` },
-  { id: "lesson", name: "调用栈入门 · main → foo → bar", syntax: "att", source: lessonSource },
 ];

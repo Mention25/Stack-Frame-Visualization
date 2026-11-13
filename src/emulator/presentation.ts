@@ -20,7 +20,7 @@ export function displayRegisters(state: MachineState, decimal = false): Register
   return { ...values, rsp: values.rsp, rbp: values.rbp, rip: state.halted ? "已结束" : hex(instructionAddress(state.pc), 6) };
 }
 
-export function stackEntries(state: MachineState, previous?: MachineState, showFreed = false, decimal = false, lesson = false): StackEntry[] {
+export function stackEntries(state: MachineState, previous?: MachineState, showFreed = false, decimal = false): StackEntry[] {
   const rsp = Number(state.registers.rsp);
   let low = Math.max(STACK_BASE, Math.floor(rsp / 8) * 8);
   const first = state.initialized.findIndex(value => value !== 0);
@@ -34,12 +34,7 @@ export function stackEntries(state: MachineState, previous?: MachineState, showF
     const returned = state.frames.find(frame => frame.stackAddress === address);
     const owner = [...state.frames].reverse().find(frame => address <= frame.stackAddress);
     const freed = address + 8 <= rsp;
-    let label = freed ? "已释放 · 残留数据" : returned ? (returned.returnAddress === END_ADDRESS ? "入口返回标记" : `${returned.name} 返回地址`) : `${owner?.name || "栈"} 的栈空间`;
-    if (lesson && owner && !returned && !freed) {
-      if (address === owner.stackAddress - 8) label = `${owner.name} 保存的 RBP`;
-      else if (owner.name === "foo" && address === owner.stackAddress - 16) label = initialized ? "foo 局部变量 x = 7" : "foo 局部槽（未初始化）";
-      else label = "对齐空间（未写入）";
-    }
+    const label = freed ? "已释放 · 残留数据" : returned ? (returned.returnAddress === END_ADDRESS ? "入口返回标记" : `${returned.name} 返回地址`) : `${owner?.name || "栈"} 的栈空间`;
     entries.push({ address, value: initialized ? (decimal ? BigInt.asIntN(64,word).toString() : hex(word,1)) : `0x${[...bytes].reverse().join("")}`, label,
       highlight: !!previous && bytes.some((_,i) => state.memory[offset+i] !== previous.memory[offset+i] || state.initialized[offset+i] !== previous.initialized[offset+i]),
       owner: freed ? undefined : owner?.name, freed, bytes: bytes.join(" ") });

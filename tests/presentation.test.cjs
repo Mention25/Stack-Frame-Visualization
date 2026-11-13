@@ -15,9 +15,9 @@ test('upstream display adapter preserves full 64-bit values and unsigned stack b
 });
 test('display adapter distinguishes uninitialized, changed, and freed local memory', () => {
   const run=runAssembly(lessonSource);
-  const before=stackEntries(run.states[7],run.states[6],false,false,true).find(e=>e.address===0x7fd8);
+  const before=stackEntries(run.states[7],run.states[6]).find(e=>e.address===0x7fd8);
   assert.equal(before.value,'0x????????????????');
-  const after=stackEntries(run.states[8],run.states[7],false,false,true).find(e=>e.address===0x7fd8);
+  const after=stackEntries(run.states[8],run.states[7]).find(e=>e.address===0x7fd8);
   assert.equal(after.value,'0x7'); assert.equal(after.highlight,true); assert.equal(after.owner,'foo');
   assert.equal(stackEntries(run.states.at(-1)).length,0);
   const freed=stackEntries(run.states.at(-1),undefined,true).find(e=>e.address===0x7fd8);
