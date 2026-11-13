@@ -2,7 +2,18 @@
 
 本版本已部署到 Mention25 的个人 GitHub Pages，使用独立通用示例，并保留原作者、项目与教学材料来源。
 
-## 当前版本：恢复原作者界面（2026-11-13）
+## 当前版本：合并输入页面（2026-11-13）
+
+- 公开地址：<https://mention25.github.io/Stack-Frame-Visualization/>。
+- 发布源码：`65e717ac14167eb35d667a68d688687445b166b8`。
+- 成功工作流：[43391565810](https://github.com/Mention25/Stack-Frame-Visualization/actions/runs/43391565810)，通过 workflow_dispatch 发布。
+- 仅保留“输入汇编”和“原版示例”两个页签。首次打开输入页预填 main → foo → bar；已有草稿优先恢复。
+- 删除独立教学页、阶段讲解、九个观察点和 GDB 验证说明，保留原作者的三栏组件与通用输入功能。
+- TypeScript、生产构建和 24 项测试全部通过。生产预览验证了默认示例、自定义 AT&T 输入、Intel 示例、回退和模式切换；无浏览器错误。
+- 公开首页、JS 和 CSS 返回 HTTP 200，线上 JS/CSS 的 SHA-256 与本地生产构建一致。浏览器交互验收在本地生产预览完成。
+- 课程文档贡献分支已同步删去对关键步骤讲解和 GDB 方法的描述，PR 仍待贡献者本人撰写描述。
+
+## 先前版本：恢复原作者界面（2026-11-13）
 
 - 公开地址：<https://mention25.github.io/Stack-Frame-Visualization/>。
 - 发布源码：`5ce21ac73830cd3124b807eb9c87c8343a87ae4e`。
